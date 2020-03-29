@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
+  var showFavorites = false;
   List<Product> _items = [
     Product(
       id: 'p1',
@@ -41,8 +42,11 @@ class Products with ChangeNotifier {
     return [..._items];
   }
 
+  List<Product> get favoriteItems {
+    return _items.where((i) => i.isFavorite).toList();
+  }
+
   Product findById(String id) {
     return _items.firstWhere((p) => p.id == id);
   }
-
 }
