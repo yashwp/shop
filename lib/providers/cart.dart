@@ -10,10 +10,24 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
-  Map<String, CartItem> _items;
+  Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
     return {..._items};
+  }
+
+  int get totalItems {
+    return _items.length;
+  }
+
+  double get totalAmount {
+    var total = 0.0;
+
+    _items.forEach((key, item) {
+      total += item.price * item.quantity;
+    });
+
+    return total;
   }
 
   void addItem(String id, String title, double price) {
@@ -27,6 +41,7 @@ class Cart with ChangeNotifier {
           quantity: item.quantity + 1,
         ),
       );
+      notifyListeners();
     } else {
       _items.putIfAbsent(
         id,
@@ -37,6 +52,12 @@ class Cart with ChangeNotifier {
           quantity: 1,
         ),
       );
+      notifyListeners();
     }
+  }
+
+  void removeItem(String id) {
+    _items.remove(id);
+    notifyListeners();
   }
 }
