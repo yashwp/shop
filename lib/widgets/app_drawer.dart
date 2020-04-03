@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Drawer(
       child: Column(
         children: <Widget>[
           AppBar(
@@ -23,6 +23,13 @@ class AppDrawer extends StatelessWidget {
             title: Text('Orders'),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/orders');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Manage products'),
+            onTap: () {
+              Navigator.of(context).pushReplacementNamed('/user-products');
             },
           ),
         ],
