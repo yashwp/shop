@@ -57,12 +57,12 @@ class _AddEditProductState extends State<AddEditProduct> {
 
   @override
   void dispose() {
+    _focusNodes['image'].removeListener(_updateImageUrl);
     _focusNodes.forEach((key, val) {
       if (_focusNodes.containsKey(key)) {
         _focusNodes[key].dispose();
       }
     });
-    _focusNodes['image'].removeListener(_updateImageUrl);
     super.dispose();
   }
 
@@ -73,7 +73,7 @@ class _AddEditProductState extends State<AddEditProduct> {
   }
 
   void _saveForm() {
-    if (!_form.currentState.validate()) {
+    if (_form.currentState.validate()) {
       _form.currentState.save();
 
       if (_newProduct.id != null) {
