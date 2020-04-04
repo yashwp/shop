@@ -52,32 +52,33 @@ class Products with ChangeNotifier {
     return _items.firstWhere((p) => p.id == id);
   }
 
-  Future<void> addProduct(Product p) {
-    const url = 'https://flutter-shop-3ee63.firebaseio.com/products.json';
-    return http
-        .post(url,
-            body: json.encode({
-              'title': p.title,
-              'description': p.description,
-              'price': p.price,
-              'imgUrl': p.imgUrl.isEmpty ? p.imgUrl : '',
-              'isFavorite': p.isFavorite,
-            }))
-        .then((res) {
-      final product = Product(
-        id: json.decode(res.body)['name'],
-        title: p.title,
-        description: p.description,
-        price: p.price,
-        imgUrl: p.imgUrl.isEmpty ? p.imgUrl : '',
+  Future<void> addProduct(Product product) async {
+    const url = 'https://flutter-update.firebaseio.com/products.json';
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imgUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
       );
-
-      _items.add(product);
-
+      final newProduct = Product(
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imgUrl: product.imgUrl,
+        id: json.decode(response.body)['name'],
+      );
+      _items.add(newProduct);
+      // _items.insert(0, newProduct); // at the start of the list
       notifyListeners();
-    }).catchError((err) {
-      throw err;
-    });
+    } catch (error) {
+      print(error);
+      throw error;
+    }
   }
 
   void updateProduct(String id, Product p) {
