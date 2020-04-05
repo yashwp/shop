@@ -79,11 +79,8 @@ class _AddEditProductState extends State<AddEditProduct> {
       _form.currentState.save();
 
       if (_newProduct.id != null) {
-        Provider.of<Products>(context, listen: false)
+        await Provider.of<Products>(context, listen: false)
             .updateProduct(_newProduct.id, _newProduct);
-        setState(() {
-          _isLoading = false;
-        });
         Navigator.of(context).pop();
       } else {
         try {
@@ -103,12 +100,11 @@ class _AddEditProductState extends State<AddEditProduct> {
                           child: Text('Okay'))
                     ],
                   ));
-        } finally {
-          setState(() {
-            _isLoading = false;
-          });
-          Navigator.of(context).pop();
         }
+        setState(() {
+          _isLoading = false;
+        });
+        Navigator.of(context).pop();
       }
     }
   }
