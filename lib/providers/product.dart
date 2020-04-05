@@ -19,7 +19,7 @@ class Product with ChangeNotifier {
       @required this.imgUrl,
       this.isFavorite = false});
 
-  void toggleFavorite() async {
+  Future<void> toggleFavorite() async {
     final oldStatus = isFavorite;
     isFavorite = !isFavorite;
     final url = 'https://flutter-shop-3ee63.firebaseio.com/products/$id.json';
